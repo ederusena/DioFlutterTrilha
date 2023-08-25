@@ -8,8 +8,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var email = "";
-  var password = "";
+  var emailController = TextEditingController(text: "eder.sena@live.com");
+  var passwordController = TextEditingController();
   var isObscure = true;
 
   @override
@@ -53,11 +53,8 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.center,
                     height: 30,
                     child: TextField(
-                      onChanged: (value) => {
-                        setState(() {
-                          email = value;
-                        })
-                      },
+                      controller: emailController,
+                      onChanged: (value) => {},
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.only(top: (-3)),
@@ -78,12 +75,9 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.center,
                     height: 30,
                     child: TextField(
-                      obscureText: isObscure,
-                      onChanged: (value) => {
-                        setState(() {
-                          password = value;
-                        })
-                      },
+emailController obscureText: isObscure,
+                      controller: passwordController,
+                      onChanged: (value) => {},
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(top: (-3)),

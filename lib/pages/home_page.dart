@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trilhapp/pages/dados_cadastrais.dart';
+import 'package:trilhapp/pages/pagina1.dart';
+import 'package:trilhapp/pages/pagina2.dart';
+import 'package:trilhapp/pages/pagina3.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -8,6 +12,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  PageController pageController = PageController(initialPage: 0);
+  int posicaoPagina = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,25 +44,14 @@ class _MainPageState extends State<MainPage> {
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           width: double.infinity,
                           child: const Text("Dados cadastrais")),
-                      onTap: () => {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text('AlertDialog Title'),
-                            content: const Text('AlertDialog description'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        )
+                      onTap: () {
+                        Navigator.pop(context, 'OK');
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DadosCadastrais(
+                                    texto: "Salve rapeize",
+                                    dados: ["Eder", "Damaris"])));
                       },
                     ),
                     const SizedBox(height: 10),
@@ -119,6 +114,40 @@ class _MainPageState extends State<MainPage> {
               )
             ],
           ),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                onPageChanged: (value) {
+                  setState(() {
+                    posicaoPagina = value;
+                  });
+                },
+                children: const [
+                  PaginaOnePage(),
+                  PaginaTwoPage(),
+                  PaginaThreePage()
+                ],
+              ),
+            ),
+            BottomNavigationBar(
+                onTap: (value) => setState(() {
+                      pageController.animateToPage(value,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn);
+                    }),
+                currentIndex: posicaoPagina,
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: "Home"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), label: "Configurações"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person), label: "Perfil")
+                ])
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trilhapp/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,8 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var emailController = TextEditingController(text: "eder.sena@live.com");
-  var passwordController = TextEditingController();
+  var emailController = TextEditingController(text: "");
+  var passwordController = TextEditingController(text: "");
   var isObscure = true;
 
   @override
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.center,
                     height: 30,
                     child: TextField(
-emailController obscureText: isObscure,
+                      obscureText: isObscure,
                       controller: passwordController,
                       onChanged: (value) => {},
                       style: const TextStyle(color: Colors.white),
@@ -128,7 +129,22 @@ emailController obscureText: isObscure,
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color.fromARGB(255, 112, 30, 244)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (emailController.text == "eder.sena@live.com" &&
+                              passwordController.text == "123456") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainPage()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Usuário ou senha inválidos"),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        },
                         child: const Text("Entrar",
                             style: TextStyle(
                                 color: Colors.white,

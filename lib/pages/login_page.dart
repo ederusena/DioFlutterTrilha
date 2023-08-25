@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           if (emailController.text == "eder.sena@live.com" &&
                               passwordController.text == "123456") {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const MainPage()));

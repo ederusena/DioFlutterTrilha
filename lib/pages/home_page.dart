@@ -49,9 +49,7 @@ class _MainPageState extends State<MainPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const DadosCadastrais(
-                                    texto: "Salve rapeize",
-                                    dados: ["Eder", "Damaris"])));
+                                builder: (context) => const DadosCadastrais()));
                       },
                     ),
                     const SizedBox(height: 10),

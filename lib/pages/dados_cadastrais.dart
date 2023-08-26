@@ -20,6 +20,7 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
   var linguagensSelecionadas = [];
   var niveis = [];
   var nivelSelecionado = "";
+  double salarioEscolhido = 0;
 
   @override
   void initState() {
@@ -102,6 +103,19 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
                           ))
                       .toList(),
                 ),
+                const TextLabel(texto: "Tempo de experiência"),
+                TextLabel(
+                    texto:
+                        "Pretenção salarial R\$ ${salarioEscolhido.round()}"),
+                Slider(
+                    min: 0,
+                    max: 15000,
+                    value: salarioEscolhido,
+                    onChanged: (double value) {
+                      setState(() {
+                        salarioEscolhido = value;
+                      });
+                    }),
                 TextButton(
                   onPressed: () => {print(dataNascimentoController.text)},
                   child: const Text('Salvar'),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trilhapp/repository/nivel_repository.dart';
+import 'package:trilhapp/shared/widget/separator.dart';
 import 'package:trilhapp/shared/widget/text_label.dart';
 
 class DadosCadastrais extends StatefulWidget {
@@ -11,6 +13,15 @@ class DadosCadastrais extends StatefulWidget {
 class _DadosCadastraisState extends State<DadosCadastrais> {
   var emailController = TextEditingController(text: "");
   var dataNascimentoController = TextEditingController(text: "");
+  var nivelRepository = NivelRepository();
+  var niveis = [];
+  var nivelSelecionado = "";
+
+  @override
+  void initState() {
+    niveis = nivelRepository.getNiveis();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +44,7 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
                     hintText: "Digite seu nome",
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const Separator(),
                 const TextLabel(texto: "Data de Nascimento"),
                 TextField(
                   controller: dataNascimentoController,
@@ -50,6 +59,23 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
                     dataNascimentoController.text =
                         data.toString().substring(0, 10).trim();
                   },
+                ),
+                const Separator(),
+                const TextLabel(texto: "Nível de experiência"),
+                Column(
+                  children: niveis
+                      .map((e) => RadioListTile(
+                            title: Text(e.toString()),
+                            selected: nivelSelecionado == e.toString(),
+                            value: e.toString(),
+                            groupValue: nivelSelecionado,
+                            onChanged: (value) {
+                              setState(() {
+                                nivelSelecionado = value.toString();
+                              });
+                            },
+                          ))
+                      .toList(),
                 ),
                 TextButton(
                   onPressed: () => {print(dataNascimentoController.text)},

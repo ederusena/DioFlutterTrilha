@@ -19,6 +19,7 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
   var linguagens = [];
   var linguagensSelecionadas = [];
   var niveis = [];
+  int tempoExperiencia = 1;
   var nivelSelecionado = "";
   double salarioEscolhido = 0;
 
@@ -27,6 +28,14 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
     linguagens = linguagemRepository.getLinguagens();
     niveis = nivelRepository.getNiveis();
     super.initState();
+  }
+
+  List<DropdownMenuItem> getAnosExperiencia() {
+    var lista = <DropdownMenuItem>[];
+    for (var i = 1; i < 50; i++) {
+      lista.add(DropdownMenuItem(value: i, child: Text(i.toString())));
+    }
+    return lista;
   }
 
   @override
@@ -67,6 +76,15 @@ class _DadosCadastraisState extends State<DadosCadastrais> {
                 ),
                 const Separator(),
                 const TextLabel(texto: "Nível de experiência"),
+                DropdownButton(
+                    isExpanded: true,
+                    value: tempoExperiencia,
+                    items: getAnosExperiencia(),
+                    onChanged: (value) => {
+                          setState(() {
+                            tempoExperiencia = value as int;
+                          })
+                        }),
                 Column(
                   children: niveis
                       .map((e) => RadioListTile(

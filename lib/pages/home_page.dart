@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trilhapp/pages/dados_cadastrais.dart';
 import 'package:trilhapp/pages/pagina1.dart';
 import 'package:trilhapp/pages/pagina2.dart';
 import 'package:trilhapp/pages/pagina3.dart';

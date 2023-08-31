@@ -27,7 +27,13 @@ class CustomDrawer extends StatelessWidget {
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       width: double.infinity,
-                      child: const Text("Dados cadastrais")),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.person),
+                          SizedBox(width: 10),
+                          Text("Dados cadastrais"),
+                        ],
+                      )),
                   onTap: () {
                     Navigator.pop(context, 'OK');
                     Navigator.pushReplacement(
@@ -41,7 +47,13 @@ class CustomDrawer extends StatelessWidget {
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       width: double.infinity,
-                      child: const Text("Termos de uso e privacidade")),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.privacy_tip),
+                          SizedBox(width: 10),
+                          Text("Termos de uso e privacidade"),
+                        ],
+                      )),
                   onTap: () => {
                     showDialog<String>(
                       context: context,
@@ -68,7 +80,13 @@ class CustomDrawer extends StatelessWidget {
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       width: double.infinity,
-                      child: const Text("Configurações")),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.settings),
+                          SizedBox(width: 10),
+                          Text("Configurações"),
+                        ],
+                      )),
                   onTap: () => {
                     showDialog<String>(
                       context: context,

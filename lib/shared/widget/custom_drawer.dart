@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trilhapp/pages/dados_cadastrais.dart';
+import 'package:trilhapp/pages/login_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -10,13 +11,38 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://avatars.githubusercontent.com/u/26800480?v=4"),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (BuildContext bc) {
+                    return Wrap(
+                      children: <Widget>[
+                        ListTile(
+                          leading: const Icon(Icons.music_note),
+                          title: const Text('Music'),
+                          onTap: () => {Navigator.pop(context)},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.videocam),
+                          title: const Text('Video'),
+                          onTap: () => {Navigator.pop(context)},
+                        ),
+                      ],
+                    );
+                  });
+            },
+            child: const UserAccountsDrawerHeader(
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/26800480?v=4"),
+              ),
+              accountName: Text("Eder Soares Sena"),
+              accountEmail: Text("eder.sena@live.com"),
             ),
-            accountName: Text("Eder Soares Sena"),
-            accountEmail: Text("eder.sena@live.com"),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -55,23 +81,28 @@ class CustomDrawer extends StatelessWidget {
                         ],
                       )),
                   onTap: () => {
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('AlertDialog Title'),
-                        content: const Text('AlertDialog description'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'Cancel'),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'OK'),
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
-                    )
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext bc) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 12),
+                            child: const Column(children: [
+                              Text(
+                                "Termos de uso e privacidade",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "O cuidado em identificar pontos críticos no comprometimento entre as equipes auxilia a preparação e a composição do retorno esperado a longo prazo",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ]),
+                          );
+                        })
                   },
                 ),
                 const SizedBox(height: 10),
@@ -106,7 +137,48 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     )
                   },
-                )
+                ),
+                const Divider(),
+                const SizedBox(height: 10),
+                InkWell(
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      width: double.infinity,
+                      child: const Row(
+                        children: [
+                          Icon(Icons.logout),
+                          SizedBox(width: 10),
+                          Text("Sair"),
+                        ],
+                      )),
+                  onTap: () => {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        elevation: 8,
+                        alignment: Alignment.centerLeft,
+                        title: const Text(
+                          'Fazer logout',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        content: const Text('Gostaria de sair?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage())),
+                            child: const Text('Sim'),
+                          ),
+                        ],
+                      ),
+                    )
+                  },
+                ),
               ],
             ),
           )

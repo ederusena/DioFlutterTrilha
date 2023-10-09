@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trilhapp/model/card_details.dart';
 import 'package:trilhapp/pages/card_details.dart';
+import 'package:trilhapp/repository/card_detail_repository.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -10,11 +11,21 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  var cardDetail = CardDetails(
-      1,
-      'Eder Sena',
-      'https://avatars.githubusercontent.com/u/26800480?v=4',
-      'Caros amigos, a execução dos pontos do programa estimula a padronização do remanejamento dos quadros funcionais. Por outro lado, a complexidade dos estudos efetuados oferece uma interessante oportunidade para verificação do fluxo de informações. É importante questionar o quanto o entendimento das metas propostas representa uma abertura para a melhoria de alternativas às soluções ortodoxas.');
+  CardDetails? cardDetail;
+  CardDetailRepository cardDetailRepository = CardDetailRepository();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    carregarDados();
+  }
+
+  void carregarDados() async {
+    cardDetail = await cardDetailRepository.get();
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +33,17 @@ class _CardPageState extends State<CardPage> {
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         width: double.infinity,
-        child: InkWell(
+        child: cardDetail == null
+            ? LinearProgressIndicator()
+            : InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return CardDetailPage(cardDetail: cardDetail);
-            }));
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) => CardDetailPage(
+                    cardDetail: cardDetail!,
+                )));
           },
           child: Hero(
-            tag: cardDetail.id,
+            tag: cardDetail!.id,
             child: Card(
               elevation: 8,
               child: Padding(
@@ -43,20 +57,20 @@ class _CardPageState extends State<CardPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: Image.network(
-                            cardDetail.url,
+                            cardDetail!.url,
                             width: 100,
                             height: 100,
                           ),
                         ),
                         Text(
-                          cardDetail.title,
+                          cardDetail!.title,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text(cardDetail.text),
+                    Text(cardDetail!.text),
                     Container(
                         width: double.infinity,
                         alignment: Alignment.centerRight,

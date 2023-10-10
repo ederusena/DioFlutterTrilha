@@ -12,6 +12,7 @@ class TarefaPage extends StatefulWidget {
 class _TarefaPageState extends State<TarefaPage> {
   var tarefaRepository = TarefaRepository();
   var _tarefas = const <Tarefa>[];
+  var apenasNaoConcluidas = false;
   TextEditingController descricaoController = TextEditingController();
 
   @override
@@ -21,7 +22,12 @@ class _TarefaPageState extends State<TarefaPage> {
   }
 
   void obterTarefas() async {
-    _tarefas = await tarefaRepository.getTarefas();
+    if (apenasNaoConcluidas) {
+      _tarefas = await tarefaRepository.getTarefasNaoConcluidas();
+    } else {
+      _tarefas = await tarefaRepository.getTarefas();
+    }
+
     setState(() {});
   }
 
@@ -64,12 +70,53 @@ class _TarefaPageState extends State<TarefaPage> {
         },
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-          itemCount: _tarefas.length,
-          itemBuilder: (BuildContext bc, int index) {
-            var tarefa = _tarefas[index];
-            return Text(tarefa.getDescricao());
-          }),
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Apenas não concluido",
+                    style: TextStyle(fontSize: 16)),
+                Switch(
+                    value: apenasNaoConcluidas,
+                    onChanged: (bool value) {
+                      setState(() {
+                        apenasNaoConcluidas = value;
+                        obterTarefas();
+                      });
+                    })
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: _tarefas.length,
+                itemBuilder: (BuildContext bc, int index) {
+                  var tarefa = _tarefas[index];
+                  return Dismissible(
+                    key: Key(tarefa.getId()),
+                    onDismissed: (DismissDirection direction) async {
+                      await tarefaRepository.remove(tarefa.getId());
+                      obterTarefas();
+                    }, // Remove the item from the data source.
+                    child: ListTile(
+                        title: Text(tarefa.getDescricao()),
+                        trailing: Switch(
+                          value: tarefa.getConcluido(),
+                          onChanged: (bool value) async {
+                            await tarefaRepository.alterar(
+                                tarefa.getId(), value);
+                            setState(() {});
+                          },
+                        )),
+                  );
+                }),
+          ),
+        ]),
+      ),
     );
   }
 }

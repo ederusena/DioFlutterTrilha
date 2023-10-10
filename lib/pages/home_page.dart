@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trilhapp/pages/card_page.dart';
 import 'package:trilhapp/pages/image_assets.dart';
-import 'package:trilhapp/pages/list_view_h.dart';
+import 'package:trilhapp/pages/list_view.dart';
+import 'package:trilhapp/pages/list_view_horizontal.dart';
 import 'package:trilhapp/shared/widget/custom_drawer.dart';
 
 class MainPage extends StatefulWidget {
@@ -35,11 +36,13 @@ class _MainPageState extends State<MainPage> {
                 children: const [
                   CardPage(),
                   ImageAssetsPage(),
-                  ListViewHPage()
+                  ListViewPage(),
+                  ListViewPageHorizontal()
                 ],
               ),
             ),
             BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
                 onTap: (value) => setState(() {
                       pageController.animateToPage(value,
                           duration: const Duration(milliseconds: 300),
@@ -52,7 +55,9 @@ class _MainPageState extends State<MainPage> {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: "Configurações"),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: "Perfil")
+                      icon: Icon(Icons.person), label: "Perfil"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.logout), label: "Logout")
                 ])
           ],
         ),

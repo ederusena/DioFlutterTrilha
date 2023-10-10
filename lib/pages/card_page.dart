@@ -22,8 +22,12 @@ class _CardPageState extends State<CardPage> {
   }
 
   void carregarDados() async {
-    cardDetail = await cardDetailRepository.get();
+    // Fetch data asynchronously
+    final loadedCardDetail = await cardDetailRepository.get();
+
     setState(() {
+      // Update the cardDetail after data is loaded
+      cardDetail = loadedCardDetail;
     });
   }
 
@@ -34,57 +38,60 @@ class _CardPageState extends State<CardPage> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         width: double.infinity,
         child: cardDetail == null
-            ? LinearProgressIndicator()
+            ? const LinearProgressIndicator()
             : InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context) => CardDetailPage(
-                    cardDetail: cardDetail!,
-                )));
-          },
-          child: Hero(
-            tag: cardDetail!.id,
-            child: Card(
-              elevation: 8,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.network(
-                            cardDetail!.url,
-                            width: 100,
-                            height: 100,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CardDetailPage(
+                                cardDetail: cardDetail!,
+                              )));
+                },
+                child: Hero(
+                  tag: cardDetail!.id,
+                  child: Card(
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.network(
+                                  cardDetail!.url,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              ),
+                              Text(
+                                cardDetail!.title,
+                                style: const TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text(
-                          cardDetail!.title,
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          const SizedBox(height: 10),
+                          Text(cardDetail!.text),
+                          Container(
+                              width: double.infinity,
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text("Ler Mais",
+                                      style: TextStyle(
+                                          decoration:
+                                              TextDecoration.underline))))
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 10),
-                    Text(cardDetail!.text),
-                    Container(
-                        width: double.infinity,
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                            onPressed: () {},
-                            child: const Text("Ler Mais",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline))))
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
       )
     ]);
   }

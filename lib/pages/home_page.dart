@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trilhapp/pages/card_page.dart';
 import 'package:trilhapp/pages/image_assets.dart';
-import 'package:trilhapp/pages/pagina3.dart';
+import 'package:trilhapp/pages/list_view_h.dart';
 import 'package:trilhapp/shared/widget/custom_drawer.dart';
 
 class MainPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
                 children: const [
                   CardPage(),
                   ImageAssetsPage(),
-                  PaginaThreePage()
+                  ListViewHPage()
                 ],
               ),
             ),

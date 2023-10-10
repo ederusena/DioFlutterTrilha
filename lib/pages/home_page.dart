@@ -3,6 +3,7 @@ import 'package:trilhapp/pages/card_page.dart';
 import 'package:trilhapp/pages/image_assets.dart';
 import 'package:trilhapp/pages/list_view.dart';
 import 'package:trilhapp/pages/list_view_horizontal.dart';
+import 'package:trilhapp/pages/tarefa_page.dart';
 import 'package:trilhapp/shared/widget/custom_drawer.dart';
 
 class MainPage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _MainPageState extends State<MainPage> {
                 },
                 children: const [
                   CardPage(),
+                  TarefaPage(),
                   ImageAssetsPage(),
                   ListViewPage(),
                   ListViewPageHorizontal()
@@ -52,6 +54,8 @@ class _MainPageState extends State<MainPage> {
                 items: const [
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: "Home"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.lock_clock), label: "Tarefas"),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: "Configurações"),
                   BottomNavigationBarItem(
